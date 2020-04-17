@@ -71,7 +71,7 @@ int main()
                     else
 
                     {
-                        printf("El resultado de s de poner 0 dividido cualquier numero da 0\n");
+                        printf("El resultado de 0 dividido por cualquier numero da 0\n");
                     }
                 }
                 else
