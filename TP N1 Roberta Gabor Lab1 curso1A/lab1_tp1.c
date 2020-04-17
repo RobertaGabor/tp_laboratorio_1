@@ -5,7 +5,7 @@
 int menuDesplegado(int flagFuncion,int x,int y)
 {
     int validacion;
-    if(flagFuncion==3)
+    if(flagFuncion==2||flagFuncion==3)
     {
         printf("______________________________________________\n");
         printf("|        BIENVENIDO A LA CALCULADORA         |\n");
@@ -26,22 +26,44 @@ int menuDesplegado(int flagFuncion,int x,int y)
     }
     else
     {
-        printf("______________________________________________\n");
-        printf("|        BIENVENIDO A LA CALCULADORA         |\n");
-        printf("______________________________________________\n");
-        system("pause");
-        printf("\n***************Menu de opciones***************\n");
-        printf("1 - Ingresar 1er Operando\n");
-        printf("2 - Ingresar 2do Operando\n");
-        printf("3 - Calcular todas las operaciones siguiente: \n");
-        printf("A)Calcular la suma (A+B)\n");
-        printf("B)Calcular la resta (A-B)\n");
-        printf("C)Calcular la division (A/B)\n");
-        printf("D)Calcular la multiplicacion (A*B)\n");
-        printf("E)Calcular el factorial de A\n");
-        printf("F)Calcular el factorial de B\n");
-        printf("4 - Informar los resultados de las operaciones\n");
-        printf("5 - Salir\n");
+           if(flagFuncion==1)
+           {
+                printf("______________________________________________\n");
+                printf("|        BIENVENIDO A LA CALCULADORA         |\n");
+                printf("______________________________________________\n");
+                system("pause");
+                printf("\n***************Menu de opciones***************\n");
+                printf("1 - Ingresar 1er Operando\n");
+                printf("2 - Ingresar 2do Operando\n");
+                printf("3 - Calcular todas las operaciones siguiente: \n");
+                printf("A)Calcular la suma (%d+B)\n",x);
+                printf("B)Calcular la resta (%d-B)\n",x);
+                printf("C)Calcular la division (%d-B)\n",x);
+                printf("D)Calcular la multiplicacion (%d*B)\n",x);
+                printf("E)Calcular el factorial de %d\n",x);
+                printf("F)Calcular el factorial de B\n");
+                printf("4 - Informar los resultados de las operaciones\n");
+                printf("5 - Salir\n");
+           }
+           else
+           {
+                printf("______________________________________________\n");
+                printf("|        BIENVENIDO A LA CALCULADORA         |\n");
+                printf("______________________________________________\n");
+                system("pause");
+                printf("\n***************Menu de opciones***************\n");
+                printf("1 - Ingresar 1er Operando\n");
+                printf("2 - Ingresar 2do Operando\n");
+                printf("3 - Calcular todas las operaciones siguiente: \n");
+                printf("A)Calcular la suma (A+B)\n");
+                printf("B)Calcular la resta (A-B)\n");
+                printf("C)Calcular la division (A/B)\n");
+                printf("D)Calcular la multiplicacion (A*B)\n");
+                printf("E)Calcular el factorial de A\n");
+                printf("F)Calcular el factorial de B\n");
+                printf("4 - Informar los resultados de las operaciones\n");
+                printf("5 - Salir\n");
+           }
     }
 
     printf("Que desea hacer?: ");

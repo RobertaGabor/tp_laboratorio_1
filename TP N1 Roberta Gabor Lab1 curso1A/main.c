@@ -59,6 +59,7 @@ int main()
             if(flag==3)
             {
                 system("cls");
+                printf("\n::::Resultados::::\n\n");
                 printf("El resultado de %d+%d es: %d\n",numero1,numero2,resultadoSuma);
                 printf("El resultado de %d-%d es: %d\n",numero1,numero2,resultadoResta);
                 if(resultadoDivision==0)
@@ -70,7 +71,7 @@ int main()
                     else
 
                     {
-                        printf("El resultado de 0 dividido cualquier numero da 0\n");
+                        printf("El resultado de s de poner 0 dividido cualquier numero da 0\n");
                     }
                 }
                 else

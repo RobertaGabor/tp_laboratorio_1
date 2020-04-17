@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1587155145 source:c:\users\rgofi\escritorio\utn\1er cuatrimestre\programacion laboratorio 1\tps\primer tp\tp n1 roberta gabor lab1 curso1a\main.c
+1587156718 source:c:\users\rgofi\escritorio\utn\1er cuatrimestre\programacion laboratorio 1\tps\primer tp\tp n1 roberta gabor lab1 curso1a\main.c
 	<stdio.h>
 	<stdlib.h>
 	"lab1_tp1.h"
 
-1587155008 source:c:\users\rgofi\escritorio\utn\1er cuatrimestre\programacion laboratorio 1\tps\primer tp\tp n1 roberta gabor lab1 curso1a\lab1_tp1.c
+1587156792 source:c:\users\rgofi\escritorio\utn\1er cuatrimestre\programacion laboratorio 1\tps\primer tp\tp n1 roberta gabor lab1 curso1a\lab1_tp1.c
 	<stdio.h>
 	<stdlib.h>
 
