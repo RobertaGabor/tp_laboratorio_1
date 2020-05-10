@@ -37,7 +37,7 @@ int scanString (char ingreso[],int tam)
     {
         fflush(stdin);
 
-        if((fgets(auxiliar,sizeof(auxiliar),stdin)!=NULL)&&strlen(auxiliar)>1)
+        if((fgets(auxiliar,sizeof(auxiliar),stdin)!=NULL)&&(strlen(auxiliar)>1))
         {
             if(auxiliar[strlen(auxiliar)-1]=='\n')
             {
@@ -60,7 +60,7 @@ int stringValidated(char cadena[],int tam)
     char bufferString[tam];
     if(cadena!=NULL&&tam>0)
     {
-        if(scanString(bufferString,tam)&&validarStringLetras(bufferString,tam))
+        if(scanString(bufferString,tam)&&validarStringLetras(bufferString,tam)&&strlen(bufferString)>1)
         {
             retorno=1;
             strncpy(cadena,bufferString,tam);
