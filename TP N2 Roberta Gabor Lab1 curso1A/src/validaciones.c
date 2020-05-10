@@ -37,7 +37,7 @@ int scanString (char ingreso[],int tam)
     {
         fflush(stdin);
 
-        if((fgets(auxiliar,sizeof(auxiliar),stdin)!=NULL)&&(strlen(auxiliar)>1))
+        if((fgets(auxiliar,sizeof(auxiliar),stdin)!=NULL))
         {
             if(auxiliar[strlen(auxiliar)-1]=='\n')
             {
@@ -60,7 +60,7 @@ int stringValidated(char cadena[],int tam)
     char bufferString[tam];
     if(cadena!=NULL&&tam>0)
     {
-        if(scanString(bufferString,tam)&&validarStringLetras(bufferString,tam)&&strlen(bufferString)>1)
+        if(scanString(bufferString,tam)&&validarStringLetras(bufferString,tam)&&strlen(bufferString)>0)
         {
             retorno=1;
             strncpy(cadena,bufferString,tam);
@@ -152,7 +152,7 @@ int floatValidated(float* numero,int tam)
     char bufferString[tam];
     if(numero!=NULL&&tam>0)
     {
-        if(scanString(bufferString,tam)&&validarNumeroFloat(bufferString,tam))
+        if(scanString(bufferString,tam)&&validarNumeroFloat(bufferString,tam)&&strlen(bufferString)>0)
         {
             retorno=1;
             *numero=atof(bufferString);
@@ -193,7 +193,7 @@ int validatedInt(int* numero)
     char bufferString[20];
     if(numero!=NULL)
     {
-        if(scanString(bufferString,sizeof(bufferString))&&validarNumeroInt(bufferString,sizeof(bufferString)))
+        if(scanString(bufferString,sizeof(bufferString))&&validarNumeroInt(bufferString,sizeof(bufferString))&&strlen(bufferString)>0)
         {
             retorno=1;
             *numero=atoi(bufferString);
