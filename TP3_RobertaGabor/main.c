@@ -122,7 +122,7 @@ int main()
     	exit(EXIT_FAILURE);
     }
 
-
+    ll_deleteLinkedList(listaEmpleados);
     return 0;
 }
 
