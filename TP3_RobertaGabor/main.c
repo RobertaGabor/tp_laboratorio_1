@@ -24,6 +24,7 @@ int main()
 {
 	setbuf(stdout,NULL);
     int mainOption;
+    int flag=0;
 
     LinkedList* listaEmpleados = ll_newLinkedList();
 
@@ -34,10 +35,42 @@ int main()
             switch(mainOption)
             {
                 case 1:
-                    controller_loadFromText("data2.csv",listaEmpleados);/*listo*//*hacer que no se carguen si ya se cargaron*/
+                    if(flag==0)
+                    {
+                    	controller_loadFromText("data2.csv",listaEmpleados);
+                    	flag=1;
+                    }
+                    else
+                    {
+                    	if(flag==1)
+                    	{
+                    		printf("Ya se cargaron los datos en texto\n");
+                    	}
+                    	else
+                    	{
+                    		printf("Los datos ya se cargaron como binario\n");
+                    	}
+                    }
+                	/*listo*//*hacer que no se carguen si ya se cargaron*/
                     break;
                 case 2:
-                	controller_loadFromBinary("data.bin", listaEmpleados);/*listo*/
+                	if(flag==0)
+                	{
+                		controller_loadFromBinary("data.bin", listaEmpleados);/*listo*/
+                		flag=2;
+                	}
+                	else
+                	{
+                		if(flag==2)
+                		{
+                			printf("Ya se cargaron los datos en binario\n");
+                		}
+                		else
+                		{
+                			printf("Los datos ya se cargaron como texto\n");
+                		}
+                	}
+
                 	break;
                 case 3:
                 	controller_addEmployee(listaEmpleados);/*listo*/
