@@ -445,7 +445,7 @@ int ll_containsAll(LinkedList* this,LinkedList* this2)
 {
     int returnAux = -1;
     int tamThis2;
-    void* auxEl;
+    void* auxEl=NULL;
     int contadorThis2=0;
 
     if(this!=NULL&&this2!=NULL)
