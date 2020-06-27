@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "linkedlist.h"
+#include "Employee.h"
 
 
 static Node* getNode(LinkedList* this, int nodeIndex);
@@ -568,9 +569,53 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     					ll_set(this,j,aux1);
     					returnAux=0;
     				}
+    				else
+    				{
+    					returnAux=0;
+    				}
     			}
     		}
     	}
     }
     return returnAux;
 }
+
+LinkedList* ll_filter(LinkedList* this,int (*pFunc)(void*))
+{
+    LinkedList* pList=NULL;
+    if(this!=NULL&&pFunc!=NULL)
+    {
+        pList=ll_newLinkedList();
+        if(pList!=NULL)
+        {
+            for(int i=0;i<ll_len(this);i++)
+            {
+                if(pFunc(ll_get(this,i)))
+                {
+                    ll_add(pList,ll_get(this,i));
+                }
+            }
+        }
+
+    }
+
+    return pList;
+
+}
+
+int filtrarRank(void* pElement)
+{
+    Employee* aux;
+    int returnAux=0;
+    if(pElement!=NULL)
+    {
+        aux=(Employee*)pElement;
+        if(aux->rank>0&&aux->rank<=10)
+        {
+            returnAux=1;
+        }
+    }
+    return returnAux;
+}
+
+

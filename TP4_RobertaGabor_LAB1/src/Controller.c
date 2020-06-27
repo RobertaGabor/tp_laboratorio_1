@@ -215,6 +215,7 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 	Employee* auxiliar;
 	char nombre[128];
 	int id;
+	int rank;
 	int sueldo;
 	int horas;
 
@@ -223,18 +224,19 @@ int controller_saveAsText(char* path , LinkedList* pArrayListEmployee)
 		archivo=fopen(path,"w");
 		if(archivo!=NULL)
 		{
-			fprintf(archivo,"id,nombre,horasTrabajadas,sueldo\n");
+			fprintf(archivo,"id,nombre,horasTrabajadas,sueldo,rakingMensual\n");
 			for(int i=0;i<tam;i++)
 			{
 					auxiliar=(Employee*)ll_get(pArrayListEmployee,i);
 					if(auxiliar!=NULL)/*si no esta vacia esa posicion*/
 					{
 						if(employee_getId(auxiliar,&id)
+							&&employee_getRank(auxiliar,&rank)
 							&&employee_getNombre(auxiliar,nombre)
 							&&employee_getSueldo(auxiliar,&sueldo)
 							&&employee_getHorasTrabajadas(auxiliar,&horas))
 							{
-								fprintf(archivo,"%d,%s,%d,%d\n",id,nombre,horas,sueldo);
+								fprintf(archivo,"%d,%s,%d,%d,%d\n",id,nombre,horas,sueldo,rank);
 							}
 						retorno=1;
 					}

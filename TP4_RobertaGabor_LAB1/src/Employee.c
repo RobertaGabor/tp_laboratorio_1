@@ -19,17 +19,19 @@ Employee* employee_new()
 		nuevoEmpleado->sueldo=0;
 		nuevoEmpleado->horasTrabajadas=0;
 		strcpy(nuevoEmpleado->nombre,"");
+		nuevoEmpleado->rank=-1;
 
 	}
 	return nuevoEmpleado;
 }
-Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr)
+Employee* employee_newParametros(char* idStr,char* nombreStr,char* horasTrabajadasStr,char* sueldoStr,char* rankStr)
 {
 	Employee* nuevoEmpleadoParams=NULL;
 	nuevoEmpleadoParams=employee_new();
 	if(nuevoEmpleadoParams!=NULL)
 	{
 		if(!(employee_setId(nuevoEmpleadoParams,atoi(idStr))
+			&&employee_setRank(nuevoEmpleadoParams,atoi(rankStr))
 			&&employee_setNombre(nuevoEmpleadoParams,nombreStr)
 			&&employee_setHorasTrabajadas(nuevoEmpleadoParams,atoi(horasTrabajadasStr))
 			&&employee_setSueldo(nuevoEmpleadoParams,atoi(sueldoStr))))
@@ -66,6 +68,17 @@ int employee_setId(Employee* this,int id)
 	if(this!=NULL&&id>0)
 	{
 		this->id=id;
+		retorno=1;
+	}
+	return retorno;
+}
+
+int employee_setRank(Employee* this,int rank)
+{
+	int retorno=0;
+	if(this!=NULL&&rank>-2)
+	{
+		this->rank=rank;
 		retorno=1;
 	}
 	return retorno;
@@ -117,6 +130,16 @@ int employee_getId(Employee* this,int* id)
 	}
 	return retorno;
 }
+int employee_getRank(Employee* this,int* rank)
+{
+	int retorno=0;
+	if(this!=NULL&&rank!=NULL)
+	{
+		*rank=this->rank;
+		retorno=1;
+	}
+	return retorno;
+}
 
 int employee_getNombre(Employee* this,char* nombre)
 {
@@ -159,6 +182,7 @@ int list_oneEmployee(LinkedList* pArrayListEmployee,int index)
 	int id;
 	int sueldo;
 	int horas;
+	int rank;
 	Employee* auxiliar=NULL;
 
 	if(pArrayListEmployee!=NULL&&index>=0)
@@ -167,11 +191,12 @@ int list_oneEmployee(LinkedList* pArrayListEmployee,int index)
 		if(auxiliar!=NULL)
 		{
 			if(employee_getId(auxiliar,&id)
+				&&employee_getRank(auxiliar,&rank)
 				&&employee_getNombre(auxiliar,nombre)
 				&&employee_getHorasTrabajadas(auxiliar,&horas)
 				&&employee_getSueldo(auxiliar,&sueldo))
 			{
-				printf("%6d  %16s  %6d  %15d\n",id,nombre,horas,sueldo);
+				printf("%6d  %16s  %6d  %15d  %6d\n",id,nombre,horas,sueldo,rank);
 				retorno=1;
 			}
 		}
@@ -193,9 +218,8 @@ int list_Employees(LinkedList* pArrayListEmployee)
 	if(pArrayListEmployee!=NULL)
 	{
 		tam=ll_len(pArrayListEmployee);
-		printf("%d\n",tam);
 		retorno=1;
-		printf("    ID            NOMBRE  HORASTRABAJADAS   SUELDO\n");
+		printf("    ID            NOMBRE  HORASTRABAJADAS   SUELDO  RANKINGMENSUAL\n");
 		for(int i=0;i<tam;i++)
 		{
 			flag=list_oneEmployee(pArrayListEmployee,i);
@@ -247,6 +271,9 @@ int employee_addEmployee(LinkedList* pArrayListEmployee)
 	int auxiliarid;
 	int auxiliarhoras;
 	int auxiliarsueldo;
+	int modoAdd;
+	int idBorrar;
+	int indexBorrar;
 
 
 	if(pArrayListEmployee!=NULL)
@@ -269,8 +296,34 @@ int employee_addEmployee(LinkedList* pArrayListEmployee)
 						&&employee_setHorasTrabajadas(nuevoEmpleado,auxiliarhoras)
 						&&employee_setSueldo(nuevoEmpleado,auxiliarsueldo))
 				{
-					ll_add(pArrayListEmployee,nuevoEmpleado);
-					retorno=1;
+					printf("Como desea guardar al nuevo empleado?: \n");
+					printf("1-Añadir al final de la lista\n");
+					printf("2-Sobreescribir un empleado existente\n");
+					if(getIntConMax(&modoAdd,"Ingrese modo de guardado: ","Error, modo no valido",1,2,2))
+					{
+						if(modoAdd!=2)
+						{
+							ll_add(pArrayListEmployee,nuevoEmpleado);/*lista inalterada*/
+						}
+						else
+						{
+							/*se pierde un rango en lista de ranking si ese pertenecia a los mejores 10,
+							 pero como el recorrido es secuencial le va a tocar al que le sigue y a fin de mes se van a modificar todos los
+							 ranked y los nuevos con valor -1 van a adquirir un valor*/
+							list_Employees(pArrayListEmployee);
+							if(getInt(&idBorrar,"Ingrese ID de empleado a reemplazar: ","Error, el ID no es valido",1,2))
+							{
+								indexBorrar=employee_FindId(pArrayListEmployee,idBorrar);
+								if(indexBorrar!=-1)
+								{
+									ll_pop(pArrayListEmployee,indexBorrar);
+									ll_push(pArrayListEmployee,indexBorrar,nuevoEmpleado);
+								}
+							}
+
+						}
+						retorno=1;
+					}
 				}
 			}
 		}
@@ -295,7 +348,7 @@ int employee_editEmployee(LinkedList* pArrayListEmployee)
 			index=employee_FindId(pArrayListEmployee,idAux);
 			if(index!=-1)
 			{
-				printf("    ID            NOMBRE  HORASTRABAJADAS   SUELDO\n");
+				printf("    ID            NOMBRE  HORASTRABAJADAS   SUELDO  RANKINGMENSUAL\n");
 				list_oneEmployee(pArrayListEmployee,index);
 				system("pause");
 				auxiliar=ll_get(pArrayListEmployee,index);
@@ -334,7 +387,7 @@ int employee_editEmployee(LinkedList* pArrayListEmployee)
 						case 3:
 							if(employee_editSueldo(pArrayListEmployee,index))
 							{
-								printf("Se cambio el sueldoe con exito\n");
+								printf("Se cambio el sueldo con exito\n");
 								list_oneEmployee(pArrayListEmployee,index);
 								system("pause");
 								flag=1;
@@ -342,6 +395,19 @@ int employee_editEmployee(LinkedList* pArrayListEmployee)
 							else
 							{
 								printf("Ha ocurrido un error, no se pudo cambiar el sueldo\n");
+							}
+							break;
+						case 4:
+							if(employee_editRank(pArrayListEmployee,index))
+							{
+								printf("Se cambio el rank con exito\n");
+								list_oneEmployee(pArrayListEmployee,index);
+								system("pause");
+								flag=1;
+							}
+							else
+							{
+								printf("Ha ocurrido un error, no se pudo cambiar el rank\n");
 							}
 							break;
 						case 0:
@@ -375,6 +441,7 @@ int subMenuEditEmployee(void)
     printf("1-Cambiar nombre\n");
     printf("2-Cambiar horas trabajadas\n");
     printf("3-Cambiar sueldo\n");
+    printf("3-Cambiar rank\n");
     printf("0-Salir\n");
     printf("Ingrese la opcion: ");
     fflush(stdin);
@@ -436,6 +503,23 @@ int employee_editSueldo(LinkedList* pArrayListEmployee,int index)
 
 }
 
+int employee_editRank(LinkedList* pArrayListEmployee,int index)
+{
+	int retorno=0;
+	int rank;
+	Employee* auxiliarS;
+
+	auxiliarS=(Employee*)ll_get(pArrayListEmployee,index);
+	if(auxiliarS!=NULL&&getInt(&rank,"Ingrese nuevo rank: ","Error, el sueldo es un numero entero",0,1))
+	{
+		employee_setRank(auxiliarS,rank);
+		retorno=1;
+	}
+
+	return retorno;
+
+}
+
 int employee_removeEmployee(LinkedList* pArrayListEmployee)
 {
 	int retorno=0;
@@ -486,6 +570,7 @@ int subMenuSortEmployee(void)
     printf("2-Odenar por horas trabajadas\n");
     printf("3-Ordenar por sueldo\n");
     printf("4-Ordenar por ID\n");
+    printf("5-Ordenar por Ranked\n");
     printf("Ingrese la opcion: ");
     fflush(stdin);
     scanf("%d",&opcion);
@@ -529,6 +614,44 @@ int comparaPorID(void* pPersonA,void* pPersonB)
 	}
 	return retorno;
 }
+
+int comparaPorRanked(void* pPersonA,void* pPersonB)
+{
+	int retorno;
+	Employee* aux1;
+	Employee* aux2;
+	int rank1;
+	int rank2;
+
+	if(pPersonA!=NULL&&pPersonB!=NULL)
+	{
+		aux1=(Employee*)pPersonA;
+		aux2=(Employee*)pPersonB;
+
+		if(employee_getRank(aux1,&rank1)
+		&&employee_getRank(aux2,&rank2))
+		{
+			if(rank1 > rank2)
+			{
+			 retorno=1;
+			}
+			else
+			{
+				if(rank1 < rank2)
+				{
+				 retorno=-1;
+				}
+				else
+				{
+					retorno=0;
+				}
+			}
+		}
+
+	}
+	return retorno;
+}
+
 
 int comparaPorHoras(void* pPersonA,void* pPersonB)
 {
@@ -672,6 +795,10 @@ int employee_sortEmployee(LinkedList* pArrayListEmployee)
 						ll_sort(pArrayListEmployee,comparaPorID,orden);
 						retorno=1;
 						break;
+					case 5:
+						ll_sort(pArrayListEmployee,comparaPorRanked,orden);
+						retorno=1;
+						break;
 					default:
 						printf("Opcion invalida\n");
 						break;
@@ -679,4 +806,80 @@ int employee_sortEmployee(LinkedList* pArrayListEmployee)
 				}
 		}
 	    return retorno;
+}
+
+int chequearRanked(LinkedList* this)
+{
+	int retorno=0;
+	int id;
+	int index;
+	Employee* pElement;
+
+	if(getInt(&id,"Ingrese ID del empleado : ","Error, ID invalido, debe ser un numero entero mayor a 1",1,1))
+	{
+		index=employee_FindId(this,id);
+
+		if(index!=-1)
+		{	pElement=(Employee*)ll_get(this,index);
+			if(pElement!=NULL)
+			{
+				retorno=ll_contains(this,pElement);
+				if(retorno)
+				{
+					printf("    ID            NOMBRE  HORASTRABAJADAS   SUELDO  RANKINGMENSUAL\n");
+					list_oneEmployee(this,index);
+				}
+			}
+		}
+	}
+	return retorno;
+}
+
+LinkedList* mejoresSueldos(LinkedList* this)
+{
+	LinkedList* pList=NULL;
+	LinkedList* clon=NULL;
+	if(this!=NULL)
+	{
+		pList=ll_newLinkedList();
+		if(pList!=NULL)
+		{
+			clon=ll_clone(this);
+
+			if(clon!=NULL)
+			{
+				if(!ll_sort(clon,comparaPorSueldo,0))
+				{
+					for(int i=0;i<10;i++)
+					{
+					   ll_add(pList,ll_get(clon,i));
+					}
+				}
+			}
+
+		}
+	}
+	ll_deleteLinkedList(clon);
+	return pList;
+}
+
+void mostrarNuevos(LinkedList* this)
+{
+	int tam;
+	int rango;
+	Employee* aux;
+	if(this!=NULL)
+	{
+		tam=ll_len(this);
+		printf("\n*****Nuevos empleados sin rango****\n");
+		printf("\n    ID            NOMBRE  HORASTRABAJADAS   SUELDO  RANKINGMENSUAL\n");
+		for(int i=0;i<tam;i++)
+		{
+			aux=ll_get(this,i);
+			if(employee_getRank(aux,&rango)&&rango==-1)
+			{
+				list_oneEmployee(this,i);
+			}
+		}
+	}
 }

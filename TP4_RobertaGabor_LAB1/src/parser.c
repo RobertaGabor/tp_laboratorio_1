@@ -17,6 +17,7 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 	char b[128];
 	char c[128];
 	char d[128];
+	char e[128];
 	int cantidadLeida;
 	int flag=0;
 	int titulo=1;
@@ -27,11 +28,11 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 		do
 		{
 
-				cantidadLeida=fscanf(pFile,"%[^,],%[^,],%[^,],%[^\n]\n",a,b,c,d);
+				cantidadLeida=fscanf(pFile,"%[^,],%[^,],%[^,],%[^,],%[^\n]\n",a,b,c,d,e);
 
-				if(cantidadLeida==4&&strlen(a)<128&&strlen(b)<128&&strlen(c)<128&&strlen(d)<128&&titulo!=1)
+				if(cantidadLeida==5&&strlen(a)<128&&strlen(b)<128&&strlen(c)<128&&strlen(d)<128&&strlen(e)<128&&titulo!=1)
 				{
-					auxiliar=employee_newParametros(a,b,c,d);
+					auxiliar=employee_newParametros(a,b,c,d,e);
 					if(auxiliar!=NULL)
 					{
 						ll_add(pArrayListEmployee,auxiliar);
