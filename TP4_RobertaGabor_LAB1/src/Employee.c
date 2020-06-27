@@ -304,6 +304,7 @@ int employee_addEmployee(LinkedList* pArrayListEmployee)
 						if(modoAdd!=2)
 						{
 							ll_add(pArrayListEmployee,nuevoEmpleado);/*lista inalterada*/
+							retorno=1;
 						}
 						else
 						{
@@ -318,11 +319,12 @@ int employee_addEmployee(LinkedList* pArrayListEmployee)
 								{
 									ll_pop(pArrayListEmployee,indexBorrar);
 									ll_push(pArrayListEmployee,indexBorrar,nuevoEmpleado);
+									retorno=1;
 								}
 							}
 
 						}
-						retorno=1;
+
 					}
 				}
 			}

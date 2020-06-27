@@ -579,7 +579,11 @@ int ll_sort(LinkedList* this, int (*pFunc)(void* ,void*), int order)
     }
     return returnAux;
 }
-
+/** \brief Devuelve una lista nueva segun el filtro pasado por parametro
+ * \param pList LinkedList* Puntero a la lista
+ * \param pFunc (*pFunc) Puntero a la funcion criterio
+ * \return int Retorna  devuelve Nullo si lo pasado por parametro es NULL sino retorna la lista
+ */
 LinkedList* ll_filter(LinkedList* this,int (*pFunc)(void*))
 {
     LinkedList* pList=NULL;
@@ -602,7 +606,10 @@ LinkedList* ll_filter(LinkedList* this,int (*pFunc)(void*))
     return pList;
 
 }
-
+/** \brief Devuelve 1 0 segun si el elemento paso la prueba o no
+ * \param pList void* elemento void
+ * \return int Retorna  1 si contiene el filtro sino 0
+ */
 int filtrarRank(void* pElement)
 {
     Employee* aux;

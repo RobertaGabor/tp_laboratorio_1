@@ -52,12 +52,12 @@ int main(void)
                     		printf("Los datos ya se cargaron como binario\n");
                     	}
                     }
-                	/*listo*//*hacer que no se carguen si ya se cargaron*/
+
                     break;
                 case 2:
                 	if(flag==0)
                 	{
-                		controller_loadFromBinary("data.bin", listaEmpleados);/*listo*/
+                		controller_loadFromBinary("data.bin", listaEmpleados);
                 		flag=2;
                 	}
                 	else
@@ -74,22 +74,22 @@ int main(void)
 
                 	break;
                 case 3:
-                	controller_addEmployee(listaEmpleados);/*listo*/
+                	controller_addEmployee(listaEmpleados);
                 	break;
                 case 4:
-                	controller_editEmployee(listaEmpleados);/*listo*/
+                	controller_editEmployee(listaEmpleados);
                 	break;
                 case 5:
-                	controller_removeEmployee(listaEmpleados);/*listo*/
+                	controller_removeEmployee(listaEmpleados);
                 	break;
                 case 6:
-                	list_Employees(listaEmpleados);/*listo*/
+                	list_Employees(listaEmpleados);
                 	break;
                 case 7:
-                	controller_sortEmployee(listaEmpleados);/*listo*/
+                	controller_sortEmployee(listaEmpleados);
                 	break;
                 case 8:
-                	if(controller_saveAsText("data2.csv",listaEmpleados))/*listo*/
+                	if(controller_saveAsText("data2.csv",listaEmpleados))
                 	{
                 		printf("Cargado con exito\n");
                 	}
@@ -99,7 +99,7 @@ int main(void)
                 	}
                 	break;
                 case 9:
-                	if(controller_saveAsBinary("data.bin",listaEmpleados))/*listo*/
+                	if(controller_saveAsBinary("data.bin",listaEmpleados))
 					{
                 		printf("Guardado con exito\n");
 					}
@@ -111,7 +111,7 @@ int main(void)
                 case 10:
                 	/*clonar y guardar y decir que fue conexito*/
                 	listaEmpleadosBackup=ll_clone(listaEmpleados);
-                	if(controller_saveAsText("dataBackup.csv",listaEmpleadosBackup))/*listo*/
+                	if(controller_saveAsText("dataBackup.csv",listaEmpleadosBackup))
                 	{
                 		printf("Guardado con exito\n");
                 	}
@@ -130,28 +130,39 @@ int main(void)
                     		switch(informesOption)
                     		{
                     		case 1:
-                    			if(flagInfo)
+                    			if(flagInfo==2)
                     			{
-                    				ll_clear(listaEmpleadosRanked);
+                    				ll_clear(listaEmpleadosRanked);/*si ya esta cargada la limpio y vuelvo a escribir en la lista lo ultimo  guardado en el archivo*/
                     			}
+                    			if(flagInfo==3)
+                    			{
+                    				printf("La lista ya fue cargada desde el archivo\n");
+                    				break;
+                    			}
+
                     			controller_loadFromText("dataRanked.csv",listaEmpleadosRanked);
 
                     			list_Employees(listaEmpleadosRanked);
-                    			flagInfo=1;
+                    			flagInfo=3;
                     			break;
-                    		case 2:/*todos los meses se modifica todo el renking y se vuelve a cargar encima con editRank*/
-                    			if(flag==1||flag==2)
+                    		case 2:/*todos los meses se modifica todo el ranking y se vuelve a cargar encima con modificar rank*/
+                    			if(flag==1||flag==2)/*si se cargo la lista de empleados*/
                     			{
-									if(flagInfo||flagInfo==2)
+									if(flagInfo==3)
 									{
 										ll_clear(listaEmpleadosRanked);
+									}
+									if(flagInfo==2)
+									{
+										printf("La lista ya fue cargada desde la lista de empleados\n");
+										break;
 									}
 
 									listaEmpleadosRanked=ll_filter(listaEmpleados,filtrarRank);
 									if(!ll_isEmpty(listaEmpleadosRanked))
 									{
 										ll_sort(listaEmpleadosRanked,comparaPorRanked, 1);
-										if(controller_saveAsText("dataRanked.csv",listaEmpleadosRanked))/*listo*/
+										if(controller_saveAsText("dataRanked.csv",listaEmpleadosRanked))
 										{
 											printf("Guardado con exito\n");
 											flagInfo=2;
@@ -172,8 +183,8 @@ int main(void)
                     			}
 
                     			break;
-                    		case 3:/*si un empleado de lista enta en 10 mejores*/
-                    			if(chequearRanked(listaEmpleadosRanked)&&(flagInfo==1||flagInfo==2))
+                    		case 3:/*si un empleado de lista esta en 10 mejores*/
+                    			if(chequearRanked(listaEmpleadosRanked)&&(flagInfo==1||flagInfo==2))/*si ya cargaron lista empleados*/
                     			{
                     				printf("\nSe encuentra en los 10 mejores\n");
 
